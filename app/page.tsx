@@ -13,6 +13,8 @@ import { ProductCard } from '@/components/ProductCard';
 import { PollCard } from '@/components/PollCard';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { StatsCard } from '@/components/StatsCard';
+import { LoadingSpinner, LoadingCard } from '@/components/ui/LoadingSpinner';
 import { 
   Store, 
   Plus, 
@@ -21,7 +23,9 @@ import {
   Settings2, 
   TrendingUp,
   Users,
-  ShoppingBag
+  ShoppingBag,
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
 
 type AppState = 'welcome' | 'create-storefront' | 'dashboard' | 'add-product' | 'create-poll' | 'preview';
@@ -303,25 +307,35 @@ export default function PollStorePage() {
 
   // Dashboard
   return (
-    <div className="min-h-screen p-6">
-      <div className="max-w-screen-xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+    <div className="min-h-screen p-6 animate-fade-in">
+      <div className="container-responsive">
+        {/* Enhanced Header */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="heading-display text-gradient">
               {influencer?.storefrontName || 'My Store'}
             </h1>
-            <p className="text-gray-600">Manage your interactive storefront</p>
+            <p className="body-large text-neutral-600 mt-2">
+              Manage your interactive storefront and engage with your audience
+            </p>
           </div>
           
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <Button
               onClick={() => setAppState('preview')}
               variant="outline"
-              className="gap-2"
+              leftIcon={<Eye className="w-4 h-4" />}
+              className="shadow-sm"
             >
-              <Eye className="w-4 h-4" />
-              Preview
+              Preview Store
+            </Button>
+            
+            <Button 
+              variant="gradient"
+              leftIcon={<Sparkles className="w-4 h-4" />}
+              className="shadow-lg"
+            >
+              Upgrade Plan
             </Button>
             
             <Wallet>
@@ -333,140 +347,166 @@ export default function PollStorePage() {
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <ShoppingBag className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Products</p>
-                  <p className="text-2xl font-bold">{products.length}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-purple-100 rounded-lg">
-                  <BarChart3 className="w-6 h-6 text-purple-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Active Polls</p>
-                  <p className="text-2xl font-bold">{polls.length}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <Users className="w-6 h-6 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Total Votes</p>
-                  <p className="text-2xl font-bold">
-                    {polls.reduce((sum, poll) => sum + poll.results.reduce((a, b) => a + b, 0), 0)}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-orange-100 rounded-lg">
-                  <TrendingUp className="w-6 h-6 text-orange-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Engagement</p>
-                  <p className="text-2xl font-bold">94%</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Enhanced Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <StatsCard
+            title="Products"
+            value={products.length}
+            icon={ShoppingBag}
+            description={`${products.length} products in your store`}
+            color="blue"
+            trend={{
+              value: 12,
+              isPositive: true,
+            }}
+          />
+
+          <StatsCard
+            title="Active Polls"
+            value={polls.length}
+            icon={BarChart3}
+            description={`${polls.reduce((sum, poll) => sum + poll.results.reduce((a, b) => a + b, 0), 0)} total votes`}
+            color="purple"
+            trend={{
+              value: 8,
+              isPositive: true,
+            }}
+          />
+
+          <StatsCard
+            title="Total Votes"
+            value={polls.reduce((sum, poll) => sum + poll.results.reduce((a, b) => a + b, 0), 0)}
+            icon={Users}
+            description="Votes across all polls"
+            color="green"
+            trend={{
+              value: 15,
+              isPositive: true,
+            }}
+          />
+
+          <StatsCard
+            title="Engagement"
+            value="94%"
+            icon={TrendingUp}
+            description="Average engagement rate"
+            color="orange"
+            trend={{
+              value: 6,
+              isPositive: true,
+            }}
+          />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Products Section */}
-          <div>
+          {/* Enhanced Products Section */}
+          <div className="animate-slide-up">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold">Products</h2>
+              <div>
+                <h2 className="heading-2">Products</h2>
+                <p className="body-small text-neutral-600 mt-1">
+                  Manage your product catalog
+                </p>
+              </div>
               <Button
                 onClick={() => setAppState('add-product')}
                 size="sm"
-                className="gap-2"
+                variant="gradient"
+                leftIcon={<Plus className="w-4 h-4" />}
+                className="shadow-lg"
               >
-                <Plus className="w-4 h-4" />
                 Add Product
               </Button>
             </div>
             
             <div className="space-y-4">
               {products.length > 0 ? (
-                products.map((product) => (
-                  <ProductCard
+                products.map((product, index) => (
+                  <div 
                     key={product.productId}
-                    product={product}
-                    variant="editable"
-                    onDelete={handleDeleteProduct}
-                  />
+                    className="animate-slide-up"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <ProductCard
+                      product={product}
+                      variant="editable"
+                      onDelete={handleDeleteProduct}
+                    />
+                  </div>
                 ))
               ) : (
-                <Card className="p-8 text-center">
-                  <ShoppingBag className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">No products yet</h3>
-                  <p className="text-gray-600 mb-4">
+                <Card className="glass-card p-8 text-center animate-scale-in">
+                  <div className="p-4 bg-primary-100 rounded-full w-fit mx-auto mb-4">
+                    <ShoppingBag className="w-8 h-8 text-primary-600" />
+                  </div>
+                  <h3 className="heading-3 mb-2">No products yet</h3>
+                  <p className="body-base text-neutral-600 mb-6">
                     Add your first product to start building your storefront
                   </p>
-                  <Button onClick={() => setAppState('add-product')}>
-                    Add Product
+                  <Button 
+                    onClick={() => setAppState('add-product')}
+                    variant="gradient"
+                    leftIcon={<Plus className="w-4 h-4" />}
+                    className="shadow-lg"
+                  >
+                    Add Your First Product
                   </Button>
                 </Card>
               )}
             </div>
           </div>
 
-          {/* Polls Section */}
-          <div>
+          {/* Enhanced Polls Section */}
+          <div className="animate-slide-up" style={{ animationDelay: '200ms' }}>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold">Polls</h2>
+              <div>
+                <h2 className="heading-2">Polls</h2>
+                <p className="body-small text-neutral-600 mt-1">
+                  Engage your audience with interactive polls
+                </p>
+              </div>
               <Button
                 onClick={() => setAppState('create-poll')}
                 size="sm"
-                className="gap-2"
+                variant="gradient"
+                leftIcon={<Plus className="w-4 h-4" />}
+                className="shadow-lg"
               >
-                <Plus className="w-4 h-4" />
                 Create Poll
               </Button>
             </div>
             
             <div className="space-y-4">
               {polls.length > 0 ? (
-                polls.map((poll) => (
-                  <PollCard
+                polls.map((poll, index) => (
+                  <div 
                     key={poll.pollId}
-                    poll={poll}
-                    variant="creator"
-                    onVote={handleVote}
-                  />
+                    className="animate-slide-up"
+                    style={{ animationDelay: `${(index + 2) * 100}ms` }}
+                  >
+                    <PollCard
+                      poll={poll}
+                      variant="creator"
+                      onVote={handleVote}
+                    />
+                  </div>
                 ))
               ) : (
-                <Card className="p-8 text-center">
-                  <BarChart3 className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">No polls yet</h3>
-                  <p className="text-gray-600 mb-4">
-                    Create your first poll to engage your audience
+                <Card className="glass-card p-8 text-center animate-scale-in">
+                  <div className="p-4 bg-accent-100 rounded-full w-fit mx-auto mb-4">
+                    <BarChart3 className="w-8 h-8 text-accent-600" />
+                  </div>
+                  <h3 className="heading-3 mb-2">No polls yet</h3>
+                  <p className="body-base text-neutral-600 mb-6">
+                    Create your first poll to engage your audience and gather insights
                   </p>
-                  <Button onClick={() => setAppState('create-poll')}>
-                    Create Poll
+                  <Button 
+                    onClick={() => setAppState('create-poll')}
+                    variant="gradient"
+                    leftIcon={<Plus className="w-4 h-4" />}
+                    className="shadow-lg"
+                  >
+                    Create Your First Poll
                   </Button>
                 </Card>
               )}
