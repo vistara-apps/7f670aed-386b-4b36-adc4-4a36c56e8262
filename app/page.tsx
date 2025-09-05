@@ -11,6 +11,7 @@ import { AddProductForm } from '@/components/AddProductForm';
 import { CreatePollForm } from '@/components/CreatePollForm';
 import { ProductCard } from '@/components/ProductCard';
 import { PollCard } from '@/components/PollCard';
+import { PaymentTest } from '@/components/PaymentTest';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { 
@@ -21,10 +22,11 @@ import {
   Settings2, 
   TrendingUp,
   Users,
-  ShoppingBag
+  ShoppingBag,
+  CreditCard
 } from 'lucide-react';
 
-type AppState = 'welcome' | 'create-storefront' | 'dashboard' | 'add-product' | 'create-poll' | 'preview';
+type AppState = 'welcome' | 'create-storefront' | 'dashboard' | 'add-product' | 'create-poll' | 'preview' | 'payment-test';
 
 export default function PollStorePage() {
   const { setFrameReady } = useMiniKit();
@@ -301,6 +303,27 @@ export default function PollStorePage() {
     );
   }
 
+  // Payment Test
+  if (appState === 'payment-test') {
+    return (
+      <div className="min-h-screen p-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-6">
+            <Button
+              onClick={() => setAppState('dashboard')}
+              variant="outline"
+              className="gap-2"
+            >
+              ← Back to Dashboard
+            </Button>
+          </div>
+          
+          <PaymentTest />
+        </div>
+      </div>
+    );
+  }
+
   // Dashboard
   return (
     <div className="min-h-screen p-6">
@@ -315,6 +338,15 @@ export default function PollStorePage() {
           </div>
           
           <div className="flex gap-3">
+            <Button
+              onClick={() => setAppState('payment-test')}
+              variant="outline"
+              className="gap-2"
+            >
+              <CreditCard className="w-4 h-4" />
+              Test Payments
+            </Button>
+            
             <Button
               onClick={() => setAppState('preview')}
               variant="outline"
