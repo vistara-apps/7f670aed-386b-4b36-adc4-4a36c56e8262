@@ -1,0 +1,30 @@
+{
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "frame": {
+    "version": "1",
+    "name": "PollStore",
+    "subtitle": "Built with Zara",
+    "description": "PollStore is a Base Mini App built with Zara.",
+    "iconUrl": "https://0co.to/images/zara-2.png",
+    "homeUrl": "https://7f670aed386b4b36adc44a36c56e8262-6n3b.vercel.app",
+    "splashImageUrl": "https://7f670aed386b4b36adc44a36c56e8262-6n3b.vercel.app/splash.png",
+    "splashBackgroundColor": "#000000",
+    "heroImageUrl": "https://7f670aed386b4b36adc44a36c56e8262-6n3b.vercel.app/image.png",
+    "tagline": "PollStore",
+    "screenshotUrls": [
+      "https://7f670aed386b4b36adc44a36c56e8262-6n3b.vercel.app/screenshot.png",
+      "https://7f670aed386b4b36adc44a36c56e8262-6n3b.vercel.app/screenshot.png"
+    ],
+    "primaryCategory": "social",
+    "tags": [
+      "base",
+      "miniapp",
+      "onchainkit"
+    ],
+    "webhookUrl": "https://7f670aed386b4b36adc44a36c56e8262-6n3b.vercel.app/api/webhook"
+  }
+}
